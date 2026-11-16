@@ -159,4 +159,6 @@
     <string name="setting_debug_overlay_desc">在视频上叠加流统计：编码、FPS、码率、抖动、帧数、丢帧</string>
     <string name="setting_benchmark_log">启用调试日志</string>
     <string name="setting_benchmark_log_desc">向 logcat 输出流统计：编码、FPS、码率、抖动、帧数、丢帧</string>
+    <string name="setting_music_receiver">独立音乐接收器</string>
+    <string name="setting_music_receiver_desc">额外广播一个仅用于音频的设备。如果视频应用只显示 Music 设备，请关闭此选项。更改会重启接收器。</string>
 </resources>

@@ -160,7 +160,7 @@ static void _on_video_play(void *cls, const char *location, const float start_po
     android_callback_ctx_t *ctx = (android_callback_ctx_t *)cls;
     JNIEnv *env = _get_env(ctx);
     if (!env) return;
-    LOGI("on_video_play: %s @ %.2f", location ? location : "(null)", start_position);
+    LOGI("on_video_play: received video source @ %.2f", start_position);
     jstring jloc = (*env)->NewStringUTF(env, location ? location : "");
     (*env)->CallVoidMethod(env, ctx->callback_obj, ctx->on_video_play, jloc, (jfloat)start_position);
     (*env)->DeleteLocalRef(env, jloc);

@@ -159,4 +159,6 @@
     <string name="setting_debug_overlay_desc">Overlay stream stats on video: codec, FPS, bitrate, jitter, frames, drops</string>
     <string name="setting_benchmark_log">Enable debug logging</string>
     <string name="setting_benchmark_log_desc">Log stream stats to logcat: codec, FPS, bitrate, jitter, frames, drops</string>
+    <string name="setting_music_receiver">Separate music receiver</string>
+    <string name="setting_music_receiver_desc">Advertise an additional audio-only device. Turn off if video apps show only the Music device. Restarts the receiver.</string>
 </resources>

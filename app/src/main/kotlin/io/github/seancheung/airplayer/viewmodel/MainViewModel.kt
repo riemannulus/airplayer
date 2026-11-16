@@ -84,6 +84,9 @@ class MainViewModel @Inject constructor(app: Application) : AndroidViewModel(app
     private val _h265Enabled = MutableStateFlow(prefs.getBoolean(Prefs.H265_ENABLED, Prefs.DEF_H265_ENABLED))
     val h265Enabled: StateFlow<Boolean> = _h265Enabled.asStateFlow()
 
+    private val _musicReceiverEnabled = MutableStateFlow(prefs.getBoolean(Prefs.MUSIC_RECEIVER_ENABLED, Prefs.DEF_MUSIC_RECEIVER_ENABLED))
+    val musicReceiverEnabled: StateFlow<Boolean> = _musicReceiverEnabled.asStateFlow()
+
     private val _hlsVideoEnabled = MutableStateFlow(prefs.getBoolean(Prefs.HLS_VIDEO_ENABLED, Prefs.DEF_HLS_VIDEO_ENABLED))
     val hlsVideoEnabled: StateFlow<Boolean> = _hlsVideoEnabled.asStateFlow()
 
@@ -286,6 +289,12 @@ class MainViewModel @Inject constructor(app: Application) : AndroidViewModel(app
     fun setAutoStart(v: Boolean) { _autoStart.value = v; prefs.edit().putBoolean(Prefs.AUTO_START, v).apply() }
     fun setBootAutoStart(v: Boolean) { _bootAutoStart.value = v; prefs.edit().putBoolean(Prefs.BOOT_AUTO_START, v).apply() }
     fun setH265Enabled(v: Boolean) { _h265Enabled.value = v; prefs.edit().putBoolean(Prefs.H265_ENABLED, v).apply() }
+    fun setMusicReceiverEnabled(v: Boolean) {
+        _musicReceiverEnabled.value = v
+        prefs.edit().putBoolean(Prefs.MUSIC_RECEIVER_ENABLED, v).apply()
+        service?.restartServer()
+    }
+
     fun setHlsVideoEnabled(v: Boolean) { _hlsVideoEnabled.value = v; prefs.edit().putBoolean(Prefs.HLS_VIDEO_ENABLED, v).apply() }
     fun setMaxCastResolution(v: String) { _maxCastResolution.value = v; prefs.edit().putString(Prefs.MAX_CAST_RESOLUTION, v).apply(); service?.applyHlsPrefs() }
     fun setProxyEnabled(v: Boolean) { _proxyEnabled.value = v; prefs.edit().putBoolean(Prefs.PROXY_ENABLED, v).apply(); service?.applyHlsPrefs() }

@@ -1,3 +1,18 @@
+> **CHZZK compatibility fork:** `riemannulus/airplayer` uses application ID
+> `io.github.riemannulus.airplayer` and the receiver name **Fire TV AirPlayer**.
+> It handles the iOS CHZZK player's `hlsurl` playlist wrapper as HTTPS, preserves
+> encoded paths/queries, and guards late requests after a video session ends.
+> The upstream app can remain installed, but stop other AirPlay receivers before testing.
+> The separate audio-only Music receiver is opt-in in Settings to avoid duplicate routes.
+>
+> Build: `./gradlew test lintDebug assembleDebug` (JDK 17, Android SDK 35,
+> NDK 27.0.12077973). Debug APK: `app/build/outputs/apk/debug/app-debug.apk`.
+> Device regression: `python3 scripts/check-stale-video-requests.py --serial DEVICE:5555`.
+> This replays synthetic late video requests on a dedicated test receiver and restarts it.
+> Direct CHZZK video/audio compatibility must also be checked using the iPhone app's
+> AirPlay button; successful screen mirroring is a different test.
+>
+
 # AirPlayer
 
 [![license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/seancheung/airplayer/blob/main/LICENSE)
