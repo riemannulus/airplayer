@@ -1,6 +1,6 @@
 [submodule "app/src/main/cpp/third_party/UxPlay"]
 	path = app/src/main/cpp/third_party/UxPlay
-	url = https://github.com/seancheung/UxPlay.git
+	url = https://github.com/riemannulus/UxPlay.git
 	branch = android
 [submodule "app/src/main/cpp/third_party/libplist"]
 	path = app/src/main/cpp/third_party/libplist

@@ -284,7 +284,8 @@ class AirPlayService : Service(), RaopCallbackHandler {
         nsdManager?.registerAirplay(resolvedName, port, airplayTxt)
 
         // Transient pairing is available only when the receiver permits PIN-free access.
-        if (!requirePin && android.os.Build.VERSION.SDK_INT >= 28) {
+        if (prefs.getBoolean(Prefs.MUSIC_RECEIVER_ENABLED, Prefs.DEF_MUSIC_RECEIVER_ENABLED) &&
+            !requirePin && android.os.Build.VERSION.SDK_INT >= 28) {
             runCatching {
                 val musicName = "$resolvedName Music"
                 val receiver = MusicReceiver(musicName, airplayTxt.getValue("deviceid"), ::AndroidMusicSink, ::log)

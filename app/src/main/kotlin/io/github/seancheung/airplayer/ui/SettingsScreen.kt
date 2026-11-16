@@ -41,6 +41,7 @@ fun SettingsScreen(
 ) {
     val serverName by viewModel.serverName.collectAsState()
     val h265Enabled by viewModel.h265Enabled.collectAsState()
+    val musicReceiverEnabled by viewModel.musicReceiverEnabled.collectAsState()
     val hlsVideoEnabled by viewModel.hlsVideoEnabled.collectAsState()
     val maxCastResolution by viewModel.maxCastResolution.collectAsState()
     val proxyEnabled by viewModel.proxyEnabled.collectAsState()
@@ -135,6 +136,13 @@ fun SettingsScreen(
             description = stringResource(R.string.setting_boot_auto_start_desc),
             checked = bootAutoStart,
             onCheckedChange = { viewModel.setBootAutoStart(it) }
+        )
+
+        SettingSwitch(
+            title = stringResource(R.string.setting_music_receiver),
+            description = stringResource(R.string.setting_music_receiver_desc),
+            checked = musicReceiverEnabled,
+            onCheckedChange = { viewModel.setMusicReceiverEnabled(it) }
         )
 
         SectionHeader(stringResource(R.string.section_connection))

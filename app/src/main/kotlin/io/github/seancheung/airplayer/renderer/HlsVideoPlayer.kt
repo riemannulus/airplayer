@@ -84,12 +84,15 @@ class HlsVideoPlayer(private val context: Context) {
         override fun onPlaybackStateChanged(state: Int) {
             when (state) {
                 Player.STATE_ENDED -> { finished = true; log("HLS video ended") }
-                Player.STATE_READY -> { ready = true; finished = false }
+                Player.STATE_READY -> { ready = true; finished = false; log("HLS video ready") }
                 Player.STATE_BUFFERING -> { ready = false }
             }
             snapshot()
         }
-        override fun onIsPlayingChanged(isPlaying: Boolean) = snapshot()
+        override fun onIsPlayingChanged(isPlaying: Boolean) {
+            log("HLS playing: $isPlaying")
+            snapshot()
+        }
         override fun onPlayerError(error: PlaybackException) {
             log("HLS video error: ${error.errorCodeName}")
             finished = true
@@ -151,7 +154,7 @@ class HlsVideoPlayer(private val context: Context) {
         val state = p.playbackState
         ready = state == Player.STATE_READY || state == Player.STATE_ENDED
         // position stays -1 until the player has a real timeline, so the client keeps showing "loading"
-        positionSec = if (ready && durationSec > 0) (p.currentPosition / 1000.0).coerceAtLeast(0.0) else -1.0
+        positionSec = if (ready) (p.currentPosition / 1000.0).coerceAtLeast(0.0) else -1.0
         rate = if (p.isPlaying) (p.playbackParameters.speed.takeIf { it > 0f } ?: 1f) else 0f
         bufferEmpty = state == Player.STATE_BUFFERING || state == Player.STATE_IDLE
         bufferFull = p.bufferedPercentage >= 100
@@ -160,7 +163,13 @@ class HlsVideoPlayer(private val context: Context) {
 
     fun play(location: String, startPositionSec: Float) {
         main.post {
-            log("HLS play: $location @ ${startPositionSec}s")
+            val playbackUrl = try {
+                VideoSource.playbackUrl(location)
+            } catch (_: IllegalArgumentException) {
+                log("HLS video rejected: unsupported or malformed URL")
+                return@post
+            }
+            log("HLS play: ${java.net.URI(playbackUrl).scheme} source @ ${startPositionSec}s")
             finished = false
             ready = false
             positionSec = -1.0
@@ -172,7 +181,7 @@ class HlsVideoPlayer(private val context: Context) {
             else tp.clearVideoSizeConstraints()
             tp.setPreferredVideoMimeType(if (maxVideoHeight in 1..1080) MimeTypes.VIDEO_H264 else null)
             p.trackSelectionParameters = tp.build()
-            p.setMediaItem(MediaItem.fromUri(location))
+            p.setMediaItem(MediaItem.fromUri(playbackUrl))
             if (startPositionSec > 0f) p.seekTo((startPositionSec * 1000).toLong())
             p.playWhenReady = true
             p.prepare()

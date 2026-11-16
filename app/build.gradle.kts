@@ -29,11 +29,11 @@ android {
     }
 
     defaultConfig {
-        applicationId = "io.github.seancheung.airplayer"
+        applicationId = "io.github.riemannulus.airplayer"
         minSdk = 26
         targetSdk = 35
         versionCode = 8
-        versionName = "0.0.8"
+        versionName = "0.0.8-chzzk.1"
 
         ndk {
             abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64")
@@ -85,6 +85,7 @@ tasks.withType<Zip>().configureEach {
 }
 
 dependencies {
+    testImplementation("junit:junit:4.13.2")
     implementation("com.googlecode.plist:dd-plist:1.28")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
